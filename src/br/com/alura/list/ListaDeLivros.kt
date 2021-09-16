@@ -1,7 +1,6 @@
 package br.com.alura.list
 
 fun main() {
-
     val livro1 = Livro(
         titulo = "Grande Sertão: Veredas",
         autor = "João Guimarães Rosa",
@@ -28,43 +27,34 @@ fun main() {
         editora = "Editora B"
     )
 
-    val meusLivros: MutableList<Livro> = mutableListOf(livro1, livro2, livro3, livro4)
+    val livros: MutableList<Livro> = mutableListOf(livro1, livro2, livro3, livro4)
 
-    val livro5 = Livro(
-        titulo = "Sagrana",
-        autor = "João Guimarães Rosa",
-        anoPublicacao = 1946
+    livros.add(
+        Livro(
+            titulo = "Sagarana",
+            autor = "João Guimarães Rosa",
+            anoPublicacao = 1946
+        )
     )
 
-    meusLivros.add(livro5)
+    livros.imprimeComMarcadores()
 
-    meusLivros.imprimeListaComMarcadores()
-    meusLivros.sorted()
+    livros.remove(livro1)
 
-    meusLivros.remove(livro3)
-    meusLivros.imprimeListaComMarcadores()
+    livros.imprimeComMarcadores()
 
-    meusLivros.sortedBy { it.anoPublicacao }.imprimeListaComMarcadores()
+    val ordenadoAnoPublicacao: List<Livro> = livros.sorted()
+    ordenadoAnoPublicacao.imprimeComMarcadores()
 
-    val titulos: List<String> = meusLivros.titulosPorAnoPublicacaoDoAutor("J")
+    val ordenadoPorTitulo = livros.sortedBy { it.titulo }
+    ordenadoPorTitulo.imprimeComMarcadores()
+
+    livros.sortedBy { it.autor }.imprimeComMarcadores()
+
+    val titulos: List<String> = listaDeLivros
+        .filter { it.autor.startsWith("J") }
+        .sortedBy { it.anoPublicacao }
+        .map { it.titulo }
+
     println(titulos)
-
 }
-
-fun List<Livro>.imprimeListaComMarcadores() {
-    val listaComMarcadores = this.joinToString(separator = "\n") {
-        " - ${it.titulo} de ${it.autor}"
-    }
-
-    println("\n ### Lista de Livros ### \n${listaComMarcadores}")
-}
-
-fun MutableList<Livro>.titulosPorAnoPublicacaoDoAutor(prefixoAutor: String)
-        : List<String> {
-            return this
-                .filter { it.autor.startsWith(prefixoAutor) }
-                .sortedBy { it.anoPublicacao }
-                .map { it.titulo }
-}
-
-
